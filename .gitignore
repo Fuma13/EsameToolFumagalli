@@ -1,0 +1,11 @@
+#UE4 Ignores
+
+/Binaries
+/DerivedDataCache
+/Intermediate
+/Saved
+
+#VS Ignores
+*.sdf
+*.sln
+*.suo
