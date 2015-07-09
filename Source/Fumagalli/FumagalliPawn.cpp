@@ -5,6 +5,9 @@
 #include "FumagalliProjectile.h"
 #include "TimerManager.h"
 
+#include "AcceleratedProjectile.h"
+#include "DerivedAcceleratedProjectile.h"
+
 const FName AFumagalliPawn::MoveForwardBinding("MoveForward");
 const FName AFumagalliPawn::MoveRightBinding("MoveRight");
 const FName AFumagalliPawn::FireForwardBinding("FireForward");
@@ -108,7 +111,9 @@ void AFumagalliPawn::FireShot(FVector FireDirection)
 			if (World != NULL)
 			{
 				// spawn the projectile
-				World->SpawnActor<AFumagalliProjectile>(SpawnLocation, FireRotation);
+				//World->SpawnActor<AAcceleratedProjectile>(SpawnLocation, FireRotation);
+				//World->SpawnActor<AFumagalliProjectile>(SpawnLocation, FireRotation);
+				World->SpawnActor<ADerivedAcceleratedProjectile>(SpawnLocation, FireRotation);
 			}
 
 			bCanFire = false;

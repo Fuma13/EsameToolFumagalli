@@ -9,4 +9,8 @@
 *.sdf
 *.sln
 *.suo
+*.opensdf
+
+#Package Ingeres
 Content/AnimStarterPack/
+
