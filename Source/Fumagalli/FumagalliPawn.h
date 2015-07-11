@@ -57,10 +57,17 @@ public:
 	static const FName FireForwardBinding;
 	static const FName FireRightBinding;
 
+	static const FName LeftShiftBtnBinding;
+
 private:
+
+	void PressedModFire();
+	void ReleasedModFire();
+
 
 	/* Flag to control firing  */
 	uint32 bCanFire : 1;
+	uint32 bModFire : 1;
 
 	/** Handle for efficient management of ShotTimerExpired timer */
 	FTimerHandle TimerHandle_ShotTimerExpired;

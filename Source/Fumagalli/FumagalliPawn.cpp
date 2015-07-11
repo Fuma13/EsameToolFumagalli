@@ -12,6 +12,7 @@ const FName AFumagalliPawn::MoveForwardBinding("MoveForward");
 const FName AFumagalliPawn::MoveRightBinding("MoveRight");
 const FName AFumagalliPawn::FireForwardBinding("FireForward");
 const FName AFumagalliPawn::FireRightBinding("FireRight");
+const FName AFumagalliPawn::LeftShiftBtnBinding("LShift");
 
 AFumagalliPawn::AFumagalliPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -46,6 +47,7 @@ AFumagalliPawn::AFumagalliPawn(const FObjectInitializer& ObjectInitializer)
 	GunOffset = FVector(90.f, 0.f, 0.f);
 	FireRate = 0.1f;
 	bCanFire = true;
+	bModFire = false;
 }
 
 void AFumagalliPawn::SetupPlayerInputComponent(class UInputComponent* InputComponent)
@@ -57,6 +59,12 @@ void AFumagalliPawn::SetupPlayerInputComponent(class UInputComponent* InputCompo
 	InputComponent->BindAxis(MoveRightBinding);
 	InputComponent->BindAxis(FireForwardBinding);
 	InputComponent->BindAxis(FireRightBinding);
+
+	InputComponent->BindAction(LeftShiftBtnBinding, IE_Pressed, this, &AFumagalliPawn::PressedModFire);
+	InputComponent->BindAction(LeftShiftBtnBinding, IE_Released, this, &AFumagalliPawn::ReleasedModFire);
+
+	//	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	//InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 }
 
 void AFumagalliPawn::Tick(float DeltaSeconds)
@@ -111,9 +119,15 @@ void AFumagalliPawn::FireShot(FVector FireDirection)
 			if (World != NULL)
 			{
 				// spawn the projectile
-				//World->SpawnActor<AAcceleratedProjectile>(SpawnLocation, FireRotation);
-				//World->SpawnActor<AFumagalliProjectile>(SpawnLocation, FireRotation);
-				World->SpawnActor<ADerivedAcceleratedProjectile>(SpawnLocation, FireRotation);
+				if (bModFire)
+				{
+					World->SpawnActor<ADerivedAcceleratedProjectile>(SpawnLocation, FireRotation);
+					//World->SpawnActor<AAcceleratedProjectile>(SpawnLocation, FireRotation);
+				}
+				else
+				{
+					World->SpawnActor<AFumagalliProjectile>(SpawnLocation, FireRotation);
+				}
 			}
 
 			bCanFire = false;
@@ -133,5 +147,15 @@ void AFumagalliPawn::FireShot(FVector FireDirection)
 void AFumagalliPawn::ShotTimerExpired()
 {
 	bCanFire = true;
+}
+
+void AFumagalliPawn::PressedModFire()
+{
+	bModFire = true;
+}
+
+void AFumagalliPawn::ReleasedModFire()
+{
+	bModFire = false;
 }
 
