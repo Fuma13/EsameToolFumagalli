@@ -5,6 +5,8 @@
 #include "AIController.h"
 #include "ShipAIController.generated.h"
 
+class AFumagalliPawn;
+
 /**
 *
 */
@@ -18,6 +20,8 @@ public:
 private:
 	virtual void Possess(APawn * p) override;
 	virtual void UnPossess() override;
+
+	AFumagalliPawn* pawn;
 
 	void Tick(float DeltaTime) override;
 };

@@ -12,6 +12,12 @@ AShipAIController::AShipAIController(const FObjectInitializer & OI) : Super(OI)
 void AShipAIController::Possess(APawn* PossessedPawn)
 {
 	SetPawn(PossessedPawn);
+	if (PossessedPawn == nullptr)
+	{
+		return;
+	}
+
+	pawn = dynamic_cast<AFumagalliPawn *>(PossessedPawn);
 }
 
 void AShipAIController::UnPossess()
@@ -21,13 +27,11 @@ void AShipAIController::UnPossess()
 
 void AShipAIController::Tick(float DeltaTime)
 {
-	APawn *p = GetPawn();
-	if (p == nullptr)
+	if (pawn == nullptr)
 	{
 		return;
 	}
 
-	AFumagalliPawn *cp = dynamic_cast<AFumagalliPawn *>(p);
-	cp->FireShot(FVector::ForwardVector);
+	pawn->FireShot(FVector::ForwardVector);
 }
 
